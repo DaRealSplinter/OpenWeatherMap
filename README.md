@@ -20,3 +20,6 @@
  
  ## Release Notes ##
  1.0.0 - Initial release. This project was copied from my original repository. 
+
+#### References ####
+* [List of Trees](https://www.treenames.net/common_tree_names.html)
