@@ -25,10 +25,19 @@ class DarkSky:
     def getCoordinates(self):
         return (self.getLatitude(), self.getLongitude())
 
+    def getProxies(self):
+        try:
+            http = self.config['darksky']['http']
+            https = self.config['darksky']['https']
+        except:
+            return None
+
+        return {"http": http, "https": https}
+
     def __str__(self):
         return ('Key: {}; Coordinates: ({}, {})'.format(self.getKey(), self.getLatitude(), self.getLongitude()))
 
-class OpenWeatherMap:    
+class OpenWeatherMap:
 
     def __init__(self):
 
@@ -57,6 +66,14 @@ class OpenWeatherMap:
     def getCoordinates(self):
         return (self.getLatitude(), self.getLongitude())
 
+    def getProxies(self):
+        try:
+            http = self.config['openweathermap']['http']
+            https = self.config['openweathermap']['https']
+        except:
+            return None
+
+        return {"http": http, "https": https}
+
     def __str__(self):
         return ('Name: {}; Id: {}; Key: {}; Coordinates: ({}, {})'.format(self.getName(), self.getId(), self.getKey(), self.getLatitude(), self.getLongitude()))
-

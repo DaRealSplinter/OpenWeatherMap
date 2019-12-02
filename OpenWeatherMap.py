@@ -13,12 +13,17 @@ class CurrentWeatherData:
         self.lat = key_file.getLatitude()
         self.lon = key_file.getLongitude()
 
+        self.proxies = key_file.getProxies()
         self.data = self.getWeatherData()
 
     def getWeatherData(self):
         http_request = 'http://api.openweathermap.org/data/2.5/weather?q=' + self.name + '&APPID=' + self.key + '&units=imperial'
-        
-        res = requests.get(http_request)
+
+        if self.proxies == None:
+            res = requests.get(http_request)
+        else:
+            res = requests.get(http_request, proxies=self.proxies)
+
         return res.json()
 
     def getLatitude(self):
@@ -74,7 +79,7 @@ class CurrentWeatherData:
         except:
             return None
 
-    def getWindBearing(self):            
+    def getWindBearing(self):
         try:
             return self.data['wind']['deg']
         except:
@@ -113,25 +118,25 @@ class CurrentWeatherData:
     def getCod(self):
         return self.data['cod']
 
-    def getRain1H(self):            
+    def getRain1H(self):
         try:
             return self.data['rain']['1h']
         except:
             return None
 
-    def getRain3H(self):            
+    def getRain3H(self):
         try:
             return self.data['rain']['3h']
         except:
             return None
 
-    def getSnow1H(self):            
+    def getSnow1H(self):
         try:
             return self.data['snow']['1h']
         except:
             return None
 
-    def getSnow3H(self):            
+    def getSnow3H(self):
         try:
             return self.data['snow']['3h']
         except:
@@ -230,16 +235,16 @@ class CurrentWeatherData:
         print()
 ##        print(self.__str__())
 ##        print()
-        
+
 
     def saveCurrentWeatherData(self):
         directory = 'data'
         if not os.path.exists(directory):
             os.makedirs(directory)
-            
+
         filename = 'forecast_request' + '-' + time.strftime("%Y%m%d") + '-' + time.strftime("%H%M%S") + '.json'
         with open(os.path.join(directory, filename), 'w') as write_data:
             write_data.write(str(self.data))
-            
+
     def __str__(self):
         return 'Current Weather Data = {}'.format(self.data)
