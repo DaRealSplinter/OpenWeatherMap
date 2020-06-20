@@ -16,10 +16,11 @@
      ```
      The id, lat, and lon are NOT used in the application but are still called for future uses, if desired.
 
- 4. Run the application - *Main.py* runs in a terminal with options and *MainDB.py* saves the data to a database as well as the JSON files.
+ 4. Run the application - *Main.py* runs in a terminal with options.
  
  ## Release Notes ##
  2.0.0 - OpenWeather now has an API similar to DarkSky to get free access to main weather data such as current weather, forecast (minutely, hourly, daily) and historical weather up to five previous days (time-machine) with only one call to the API.
+ 
  1.0.0 - Initial release. This project was copied from my original repository. 
 
 #### References ####
