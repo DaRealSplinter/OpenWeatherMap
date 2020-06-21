@@ -227,65 +227,65 @@ class CurrentWeatherData:
     def printCurrentWeatherData(self):
         print('Currently weather data:\n' \
               'Coordinates: {}\n' \
-              'Weather Id: {}\n' \
-              'Weather Main: {}\n' \
+##              'Weather Id: {}\n' \
+##              'Weather Main: {}\n' \
               'Weather Description: {}\n' \
-              'Weather Icon: {}\n' \
-              'Base: {}\n' \
+##              'Weather Icon: {}\n' \
+##              'Base: {}\n' \
               'Main Temperature: {}\n' \
               'Main Pressure: {}\n' \
               'Main Humidity: {}\n' \
-              'Main Min. Temperature: {}\n' \
-              'Main Max. Temperature: {}\n' \
+##              'Main Min. Temperature: {}\n' \
+##              'Main Max. Temperature: {}\n' \
               'Visibility: {}\n' \
               'Wind Speed: {}\n' \
-              'Wind Gust: {}\n' \
+##              'Wind Gust: {}\n' \
               'Wind Bearing: {}\n' \
               'Cloud All: {}\n' \
               'Date: {}\n' \
-              'System Type: {}\n' \
-              'System Id: {}\n' \
-              'System Country: {}\n' \
+##              'System Type: {}\n' \
+##              'System Id: {}\n' \
+##              'System Country: {}\n' \
               'System Sunrise: {}\n' \
               'System Sunset: {}\n' \
               'Timezone: {}\n' \
-              'Id: {}\n' \
-              'Name: {}\n' \
-              'Cod: {}\n' \
+##              'Id: {}\n' \
+##              'Name: {}\n' \
+##              'Cod: {}\n' \
               'Rain 1H: {}\n' \
               'Rain 3H: {}\n' \
               'Snow 1H: {}\n' \
               'Snow 3H: {}\n'
               .format(self.getCoordinates(),
-                      self.getWeatherId(),
-                      self.getWeatherMain(),
-                      self.getWeatherDescription(),
-                      self.getWeatherIcon(),
-                      self.getBase(),
-                      self.getMainTemperature(),
-                      self.getMainPressure(),
-                      self.getMainHumidity(),
-                      self.getMainTemperatureMinimal(),
-                      self.getMainTemperatureMaximal(),
-                      self.getVisibility(),
-                      self.getWindSpeed(),
-                      self.getWindGust(),
-                      self.getWindBearing(),
-                      self.getCloudsAll(),
-                      self.getDate(),
-                      self.getSystemType(),
-                      self.getSystemId(),
-                      self.getSystemCountry(),
-                      self.getSystemSunrise(),
-                      self.getSystemSunset(),
+##                      self.getWeatherId(),
+##                      self.getWeatherMain(),
+                      self.getCurrentWeatherDescription(),
+##                      self.getWeatherIcon(),
+##                      self.getBase(),
+                      self.getCurrentTemperature(),
+                      self.getCurrentPressure(),
+                      self.getCurrentHumidity(),
+##                      self.getMainTemperatureMinimal(),
+##                      self.getMainTemperatureMaximal(),
+                      self.getCurrentVisibility(),
+                      self.getCurrentWindSpeed(),
+##                      self.getWindGust(),
+                      self.getCurrentWindDegrees(),
+                      self.getCurrentClouds(),
+                      self.getCurrentDate(),
+##                      self.getSystemType(),
+##                      self.getSystemId(),
+##                      self.getSystemCountry(),
+                      self.getCurrentSunrise(),
+                      self.getCurrentSunset(),
                       self.getTimezone(),
-                      self.getId(),
-                      self.getName(),
-                      self.getCod(),
-                      self.getRain1H(),
-                      self.getRain3H(),
-                      self.getSnow1H(),
-                      self.getSnow3H()
+##                      self.getId(),
+##                      self.getName(),
+##                      self.getCod(),
+                      self.getCurrentRain1H(),
+                      self.getCurrentRain3H(),
+                      self.getCurrentSnow1H(),
+                      self.getCurrentSnow3H()
                   )
               )
 
