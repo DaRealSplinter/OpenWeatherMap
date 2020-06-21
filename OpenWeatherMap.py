@@ -90,6 +90,30 @@ class CurrentWeatherData:
     def getCurrentWeatherIcon(self):
         return self.data['current']['weather'][0]['icon']
 
+    def getCurrentRain1H(self):            
+        try:
+            return self.data['current']['rain']['1h']
+        except:
+            return None
+
+    def getCurrentRain3H(self):            
+        try:
+            return self.data['current']['rain']['3h']
+        except:
+            return None
+
+    def getCurrentSnow1H(self):            
+        try:
+            return self.data['current']['snow']['1h']
+        except:
+            return None
+
+    def getCurrentSnow3H(self):            
+        try:
+            return self.data['current']['snow']['3h']
+        except:
+            return None
+
     ''' Minutely Forecast '''
     def getMinutelyForecast(self, index=0):
         dt = self.data['minutely'][index]['dt']
@@ -103,6 +127,9 @@ class CurrentWeatherData:
         return len(self.data['minutely'])
 
     ''' Hourly Forecast '''
+
+
+    ''' Daily Forecast '''
     
     def getBase(self):
         return self.data['base']
@@ -277,6 +304,8 @@ class CurrentWeatherData:
         print('Feels Like: {} °F'.format(self.getCurrentFeelsLike()))
         print('Pressure: {} hpa'.format(self.getCurrentPressure()))
         print('Humidity: {}%'.format(self.getCurrentHumidity()))
+        print('Rain: {} mm/h'.format(self.getCurrentRain1H()))
+        print('Snow: {} mm/h'.format(self.getCurrentSnow1H()))
         print('Dew Point: {} °F'.format(self.getCurrentDewPoint()))
         print('UV Index: {}'.format(self.getCurrentUVI()))
         print('Cloudiness: {}%'.format(self.getCurrentClouds()))
@@ -290,6 +319,7 @@ class CurrentWeatherData:
     def printMinutelyForecastReport(self):
         for idx in range(0, self.getMinutelyForecastCount()):
             print(self.getMinutelyForecast(idx))
+        print()
 
     def saveCurrentWeatherData(self):
         directory = 'data'
