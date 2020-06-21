@@ -38,6 +38,7 @@ class CurrentWeatherData:
     def getTimeZoneOffset(self):
         return self.data['timezone_offset']
 
+    ''' Current Weather Data '''
     def getCurrentDate(self):
         return datetime.datetime.fromtimestamp(self.data['current']['dt'])
 
@@ -89,6 +90,20 @@ class CurrentWeatherData:
     def getCurrentWeatherIcon(self):
         return self.data['current']['weather'][0]['icon']
 
+    ''' Minutely Forecast '''
+    def getMinutelyForecast(self, index=0):
+        dt = self.data['minutely'][index]['dt']
+        dt = time.ctime(dt)
+        
+        precipitation = self.data['minutely'][index]['precipitation']
+
+        return [dt, precipitation]
+
+    def getMinutelyForecastCount(self):
+        return len(self.data['minutely'])
+
+    ''' Hourly Forecast '''
+    
     def getBase(self):
         return self.data['base']
 
@@ -248,7 +263,7 @@ class CurrentWeatherData:
               )
 
     def printCurrentWeatherReport(self):
-        print('Weather coordinates {}, {}'.format(self.getLatitude(),
+        print('Weather coordinates: [{}, {}]'.format(self.getLatitude(),
                                          self.getLongitude()
                                          )
               )
@@ -257,6 +272,7 @@ class CurrentWeatherData:
         print('Local Time: {}'.format(self.getCurrentDate()))
         print('Sunrise: {}'.format(self.getCurrentSunrise()))
         print('Sunset: {}'.format(self.getCurrentSunset()))
+        print('Description: {}'.format(self.getCurrentWeatherDescription()))
         print('Temperature: {} °F'.format(self.getCurrentTemperature()))
         print('Feels Like: {} °F'.format(self.getCurrentFeelsLike()))
         print('Pressure: {} hpa'.format(self.getCurrentPressure()))
@@ -268,30 +284,12 @@ class CurrentWeatherData:
         print('Wind Speed: {} m/h, Direction: {}°'.format(self.getCurrentWindSpeed(),
                                                           self.getCurrentWindDegrees())
               )
-##        print('{} °F\n{}\n{}'.format(self.getMainTemperature(),
-##                                     self.getWeatherDescription(),
-##                                     self.getDate()
-##                                     )
-##              )
-##        print('Wind: {} m/h, Direction: {}°, Gust: {}'.format(
-##                self.getWindSpeed(),
-##                self.getWindBearing(),
-##                self.getWindGust()
-##                )
-##              )
-##        print('Cloudiness: {}%'.format(self.getCloudsAll()))
-##        print('Pressure: {} hpa'.format(self.getMainPressure()))
-##        print('Humidity: {}%'.format(self.getMainHumidity()))
-##        print('Rain: {} mm'.format(self.getRain1H()))
-##        print('Snow: {} mm'.format(self.getSnow1H()))
-##        print('Visibility: {:.2f} mi'.format(self.getVisibility()))
-##        print('Sunrise: {}'.format(self.getSystemSunrise()))
-##        print('Sunset: {}'.format(self.getSystemSunset()))
-##        print('Geo coordinates: {}'.format(self.getCoordinates()))
-        print()
-##        print(self.__str__())
-##        print()
         
+        print()
+
+    def printMinutelyForecastReport(self):
+        for idx in range(0, self.getMinutelyForecastCount()):
+            print(self.getMinutelyForecast(idx))
 
     def saveCurrentWeatherData(self):
         directory = 'data'
