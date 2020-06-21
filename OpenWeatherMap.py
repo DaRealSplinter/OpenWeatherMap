@@ -16,33 +16,78 @@ class CurrentWeatherData:
         self.data = self.getWeatherData()
 
     def getWeatherData(self):
-        http_request = 'http://api.openweathermap.org/data/2.5/weather?q=' + self.name + '&APPID=' + self.key + '&units=imperial'
-        
+        http_request = 'http://api.openweathermap.org/data/2.5/onecall?lat=' + self.lat + '&lon=' + self.lon + '&APPID=' + self.key + '&units=imperial'
+                
         res = requests.get(http_request)
         return res.json()
 
     def getLatitude(self):
-        return self.data['coord']['lat']
+        return self.data['lat']
 
     def getLongitude(self):
-        return self.data['coord']['lon']
+        return self.data['lon']
 
     def getCoordinates(self):
         lat = self.getLatitude()
         lon = self.getLongitude()
         return [lat, lon]
 
-    def getWeatherId(self):
-        return self.data['weather'][0]['id']
+    def getTimezone(self):
+        return self.data['timezone']
 
-    def getWeatherMain(self):
-        return self.data['weather'][0]['main']
+    def getTimeZoneOffset(self):
+        return self.data['timezone_offset']
 
-    def getWeatherDescription(self):
-        return self.data['weather'][0]['description']
+    def getCurrentDate(self):
+        return datetime.datetime.fromtimestamp(self.data['current']['dt'])
 
-    def getWeatherIcon(self):
-        return self.data['weather'][0]['icon']
+    def getCurrentSunrise(self):
+        return time.ctime(self.data['current']['sunrise'])
+
+    def getCurrentSunset(self):
+        return time.ctime(self.data['current']['sunset'])
+
+    def getCurrentTemperature(self):
+        return self.data['current']['temp']
+
+    def getCurrentFeelsLike(self):
+        return self.data['current']['feels_like']
+
+    def getCurrentPressure(self):
+        return self.data['current']['pressure']
+
+    def getCurrentHumidity(self):
+        return self.data['current']['humidity']
+
+    def getCurrentDewPoint(self):
+        return self.data['current']['dew_point']
+
+    def getCurrentUVI(self):
+        return self.data['current']['uvi']
+
+    def getCurrentClouds(self):
+        return self.data['current']['clouds']
+
+    def getCurrentVisibility(self):
+        return self.data['current']['visibility'] / 1609.344  # MI
+
+    def getCurrentWindSpeed(self):
+        return self.data['current']['wind_speed']
+
+    def getCurrentWindDegrees(self):
+        return self.data['current']['wind_deg']
+
+    def getCurrentWeatherId(self):
+        return self.data['current']['weather'][0]['id']
+
+    def getCurrentWeatherMain(self):
+        return self.data['current']['weather'][0]['main']
+
+    def getCurrentWeatherDescription(self):
+        return self.data['current']['weather'][0]['description']
+
+    def getCurrentWeatherIcon(self):
+        return self.data['current']['weather'][0]['icon']
 
     def getBase(self):
         return self.data['base']
@@ -203,30 +248,46 @@ class CurrentWeatherData:
               )
 
     def printCurrentWeatherReport(self):
-        print('Weather in {}, {}'.format(self.getName(),
-                                         self.getSystemCountry()
+        print('Weather coordinates {}, {}'.format(self.getLatitude(),
+                                         self.getLongitude()
                                          )
               )
-        print('{} °F\n{}\n{}'.format(self.getMainTemperature(),
-                                     self.getWeatherDescription(),
-                                     self.getDate()
-                                     )
+        print('Timezone: {}'.format(self.getTimezone()))
+        print('Timezone Offset: {}'.format(self.getTimeZoneOffset()))
+        print('Local Time: {}'.format(self.getCurrentDate()))
+        print('Sunrise: {}'.format(self.getCurrentSunrise()))
+        print('Sunset: {}'.format(self.getCurrentSunset()))
+        print('Temperature: {} °F'.format(self.getCurrentTemperature()))
+        print('Feels Like: {} °F'.format(self.getCurrentFeelsLike()))
+        print('Pressure: {} hpa'.format(self.getCurrentPressure()))
+        print('Humidity: {}%'.format(self.getCurrentHumidity()))
+        print('Dew Point: {} °F'.format(self.getCurrentDewPoint()))
+        print('UV Index: {}'.format(self.getCurrentUVI()))
+        print('Cloudiness: {}%'.format(self.getCurrentClouds()))
+        print('Visibility: {:.2f} mi'.format(self.getCurrentVisibility()))
+        print('Wind Speed: {} m/h, Direction: {}°'.format(self.getCurrentWindSpeed(),
+                                                          self.getCurrentWindDegrees())
               )
-        print('Wind: {} m/h, Direction: {}°, Gust: {}'.format(
-                self.getWindSpeed(),
-                self.getWindBearing(),
-                self.getWindGust()
-                )
-              )
-        print('Cloudiness: {}%'.format(self.getCloudsAll()))
-        print('Pressure: {} hpa'.format(self.getMainPressure()))
-        print('Humidity: {}%'.format(self.getMainHumidity()))
-        print('Rain: {} mm'.format(self.getRain1H()))
-        print('Snow: {} mm'.format(self.getSnow1H()))
-        print('Visibility: {:.2f} mi'.format(self.getVisibility()))
-        print('Sunrise: {}'.format(self.getSystemSunrise()))
-        print('Sunset: {}'.format(self.getSystemSunset()))
-        print('Geo coordinates: {}'.format(self.getCoordinates()))
+##        print('{} °F\n{}\n{}'.format(self.getMainTemperature(),
+##                                     self.getWeatherDescription(),
+##                                     self.getDate()
+##                                     )
+##              )
+##        print('Wind: {} m/h, Direction: {}°, Gust: {}'.format(
+##                self.getWindSpeed(),
+##                self.getWindBearing(),
+##                self.getWindGust()
+##                )
+##              )
+##        print('Cloudiness: {}%'.format(self.getCloudsAll()))
+##        print('Pressure: {} hpa'.format(self.getMainPressure()))
+##        print('Humidity: {}%'.format(self.getMainHumidity()))
+##        print('Rain: {} mm'.format(self.getRain1H()))
+##        print('Snow: {} mm'.format(self.getSnow1H()))
+##        print('Visibility: {:.2f} mi'.format(self.getVisibility()))
+##        print('Sunrise: {}'.format(self.getSystemSunrise()))
+##        print('Sunset: {}'.format(self.getSystemSunset()))
+##        print('Geo coordinates: {}'.format(self.getCoordinates()))
         print()
 ##        print(self.__str__())
 ##        print()
