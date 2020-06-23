@@ -160,6 +160,37 @@ class CurrentWeatherData:
         return len(self.data['hourly'])
 
     ''' Daily Forecast '''
+    def getDailyForecast(self, index=0):
+        dt = time.ctime(self.data['daily'][index]['dt'])        
+        sunrise = time.ctime(self.data['daily'][index]['sunrise'])                
+        sunset = time.ctime(self.data['daily'][index]['sunset'])
+        temp_min = self.data['daily'][index]['temp']['min']
+        temp_max = self.data['daily'][index]['temp']['max']
+        # skipped some data
+        pressure = self.data['daily'][index]['pressure']
+        humidity = self.data['daily'][index]['humidity']
+        dew_point = self.data['daily'][index]['dew_point']
+        wind_speed = self.data['daily'][index]['wind_speed']
+        wind_deg = self.data['daily'][index]['wind_deg']
+        weather_id = self.data['daily'][index]['weather'][0]['id']
+        weather_main = self.data['daily'][index]['weather'][0]['main']
+        weather_description = self.data['daily'][index]['weather'][0]['description']
+        weather_icon = self.data['daily'][index]['weather'][0]['icon']
+        clouds = self.data['daily'][index]['clouds']
+        uvi = self.data['daily'][index]['uvi']
+                    
+        try:
+            rain = self.data['daily'][index]['rain']['1h']
+        except:
+            rain = None
+
+        try:
+            snow =  self.data['daily'][index]['snow']['1h']
+        except:
+            snow = None
+
+        return (dt, sunrise, sunset, temp_min, temp_max, pressure, humidity, dew_point, wind_speed, wind_deg, weather_description, clouds, uvi)
+        
     def getDailyForecastCount(self):
         return len(self.data['daily'])
 
@@ -201,7 +232,9 @@ class CurrentWeatherData:
         print()
 
     def printDailyForecastReport(self):
-        print('Number of daily reports: {}'.format(self.getDailyForecastCount()))
+        for idx in range(0, self.getDailyForecastCount()):
+            print('Daily[{}]: {}'.format(idx, self.getDailyForecast(idx)))
+        print()
         
     def saveCurrentWeatherData(self):
         directory = 'data'
@@ -214,3 +247,4 @@ class CurrentWeatherData:
             
     def __str__(self):
         return 'Current Weather Data = {}'.format(self.data)
+
