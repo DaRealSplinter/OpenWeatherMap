@@ -160,164 +160,8 @@ class CurrentWeatherData:
         return len(self.data['hourly'])
 
     ''' Daily Forecast '''
-    
-##    def getBase(self):
-##        return self.data['base']
-##
-##    def getMainTemperature(self):
-##        return self.data['main']['temp']
-##
-##    def getMainPressure(self):
-##        return self.data['main']['pressure']  # hPa
-##
-##    def getMainHumidity(self):
-##        return self.data['main']['humidity']
-##
-##    def getMainTemperatureMinimal(self):
-##        return self.data['main']['temp_min']
-##
-##    def getMainTemperatureMaximal(self):
-##        return self.data['main']['temp_max']
-##
-##    def getVisibility(self):
-##        return self.data['visibility'] / 1609.344  # MI
-##
-##    def getWindSpeed(self):
-##        return self.data['wind']['speed']
-##
-##    def getWindGust(self):
-##        try:
-##            return self.data['wind']['gust']
-##        except:
-##            return None
-##
-##    def getWindBearing(self):            
-##        try:
-##            return self.data['wind']['deg']
-##        except:
-##            return None
-##
-##    def getCloudsAll(self):
-##        return self.data['clouds']['all']
-##
-##    def getDate(self):
-##        return datetime.datetime.fromtimestamp(self.data['dt'])
-##
-##    def getSystemType(self):
-##        return self.data['sys']['type']
-##
-##    def getSystemId(self):
-##        return self.data['sys']['id']
-##
-##    def getSystemCountry(self):
-##        return self.data['sys']['country']
-##
-##    def getSystemSunrise(self):
-##        return time.ctime(self.data['sys']['sunrise'])
-##
-##    def getSystemSunset(self):
-##        return time.ctime(self.data['sys']['sunset'])
-##
-##    def getTimezone(self):
-##        return self.data['timezone']
-##
-##    def getId(self):
-##        return self.data['id']
-##
-##    def getName(self):
-##        return self.data['name']
-##
-##    def getCod(self):
-##        return self.data['cod']
-##
-##    def getRain1H(self):            
-##        try:
-##            return self.data['rain']['1h']
-##        except:
-##            return None
-##
-##    def getRain3H(self):            
-##        try:
-##            return self.data['rain']['3h']
-##        except:
-##            return None
-##
-##    def getSnow1H(self):            
-##        try:
-##            return self.data['snow']['1h']
-##        except:
-##            return None
-##
-##    def getSnow3H(self):            
-##        try:
-##            return self.data['snow']['3h']
-##        except:
-##            return None
-##
-##    def printCurrentWeatherData(self):
-##        print('Currently weather data:\n' \
-##              'Coordinates: {}\n' \
-##              'Weather Id: {}\n' \
-##              'Weather Main: {}\n' \
-##              'Weather Description: {}\n' \
-##              'Weather Icon: {}\n' \
-##              'Base: {}\n' \
-##              'Main Temperature: {}\n' \
-##              'Main Pressure: {}\n' \
-##              'Main Humidity: {}\n' \
-##              'Main Min. Temperature: {}\n' \
-##              'Main Max. Temperature: {}\n' \
-##              'Visibility: {}\n' \
-##              'Wind Speed: {}\n' \
-##              'Wind Gust: {}\n' \
-##              'Wind Bearing: {}\n' \
-##              'Cloud All: {}\n' \
-##              'Date: {}\n' \
-##              'System Type: {}\n' \
-##              'System Id: {}\n' \
-##              'System Country: {}\n' \
-##              'System Sunrise: {}\n' \
-##              'System Sunset: {}\n' \
-##              'Timezone: {}\n' \
-##              'Id: {}\n' \
-##              'Name: {}\n' \
-##              'Cod: {}\n' \
-##              'Rain 1H: {}\n' \
-##              'Rain 3H: {}\n' \
-##              'Snow 1H: {}\n' \
-##              'Snow 3H: {}\n'
-##              .format(self.getCoordinates(),
-##                      self.getWeatherId(),
-##                      self.getWeatherMain(),
-##                      self.getCurrentWeatherDescription(),
-##                      self.getWeatherIcon(),
-##                      self.getBase(),
-##                      self.getCurrentTemperature(),
-##                      self.getCurrentPressure(),
-##                      self.getCurrentHumidity(),
-##                      self.getMainTemperatureMinimal(),
-##                      self.getMainTemperatureMaximal(),
-##                      self.getCurrentVisibility(),
-##                      self.getCurrentWindSpeed(),
-##                      self.getWindGust(),
-##                      self.getCurrentWindDegrees(),
-##                      self.getCurrentClouds(),
-##                      self.getCurrentDate(),
-##                      self.getSystemType(),
-##                      self.getSystemId(),
-##                      self.getSystemCountry(),
-##                      self.getCurrentSunrise(),
-##                      self.getCurrentSunset(),
-##                      self.getTimezone(),
-##                      self.getId(),
-##                      self.getName(),
-##                      self.getCod(),
-##                      self.getCurrentRain1H(),
-##                      self.getCurrentRain3H(),
-##                      self.getCurrentSnow1H(),
-##                      self.getCurrentSnow3H()
-##                  )
-##              )
+    def getDailyForecastCount(self):
+        return len(self.data['daily'])
 
     def printCurrentWeatherReport(self):
         print('Weather coordinates: [{}, {}]'.format(self.getLatitude(),
@@ -355,6 +199,9 @@ class CurrentWeatherData:
         for idx in range(0, self.getHourlyForecastCount()):
             print('Hourly[{}]: {}'.format(idx, self.getHourlyForecast(idx)))
         print()
+
+    def printDailyForecastReport(self):
+        print('Number of daily reports: {}'.format(self.getDailyForecastCount()))
         
     def saveCurrentWeatherData(self):
         directory = 'data'
