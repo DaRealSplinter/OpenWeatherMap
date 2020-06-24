@@ -248,3 +248,28 @@ class CurrentWeatherData:
     def __str__(self):
         return 'Current Weather Data = {}'.format(self.data)
 
+
+class TimeMachineRequest(CurrentWeatherData):
+
+    def __init__(self, year='1970', month='01', date='01', hour='00', minute='00', second='00'):
+        
+        CurrentWeatherData.__init__(self)
+        self.year = year
+        self.month = month
+        self.date = date
+        self.hour = hour
+        self.minute = minute
+        self.second = second
+
+        self.data = self.getTimeMachineRequest(self.getDateTimeInSeconds())
+
+    def getDateTimeInSeconds(self):
+        s = self.month + '/' + self.date + '/' + self.year + ' ' + self.hour + ':' + self.minute + ':' + self.second
+        return int(datetime.datetime.strptime(s, "%m/%d/%Y %H:%M:%S").strftime("%s"))
+
+    def getTimeMachineRequest(self, dt):        
+        http_request = 'http://api.openweathermap.org/data/2.5/onecall/timemachine?lat=' + self.lat + '&lon=' + self.lon + '&dt=' + str(dt) + '&APPID=' + self.key + '&units=imperial'
+        # print('HTTP request: {}'.format(http_request))   
+        res = requests.get(http_request)
+        #print(res.json())
+        return res.json()
