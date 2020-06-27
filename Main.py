@@ -29,7 +29,7 @@ def main():
     if args.D:
         report.printDailyForecastReport()
     
-    print('Powered by Open Weather Map: https://openweathermap.org/')
+    print('Powered by OpenWeatherMap: https://openweathermap.org/')
     
     
 if __name__ == '__main__':

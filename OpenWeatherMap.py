@@ -115,10 +115,12 @@ class CurrentWeatherData:
             return None
 
     ''' Minutely Forecast '''
-    def getMinutelyForecast(self, index=0):
-        dt = self.data['minutely'][index]['dt']
-        dt = time.ctime(dt)
-        
+    def getMinutelyForecast(self, index=0, format_time='default'):
+        if format_time == 'default':
+            dt = time.ctime(self.data['minutely'][index]['dt'])
+        if format_time == 'minutely':
+            dt = time.strftime('%H:%M', time.localtime(self.data['minutely'][index]['dt']))        
+            
         precipitation = self.data['minutely'][index]['precipitation']
 
         return (dt, precipitation)
@@ -221,6 +223,8 @@ class CurrentWeatherData:
         
         print()
 
+        self.graphMinutelyForecast()
+
     def printMinutelyForecastReport(self):
         for idx in range(0, self.getMinutelyForecastCount()):
             print('Minutely[{}]: {}'.format(idx,self.getMinutelyForecast(idx)))
@@ -234,6 +238,25 @@ class CurrentWeatherData:
     def printDailyForecastReport(self):
         for idx in range(0, self.getDailyForecastCount()):
             print('Daily[{}]: {}'.format(idx, self.getDailyForecast(idx)))
+        print()
+
+    def graphMinutelyForecast(self):
+        precipitation_list = []
+        precipitation_total = 0
+        for idx in range(0, self.getMinutelyForecastCount()):
+            minutely_data = self.getMinutelyForecast(idx, format_time='minutely')
+            precipitation_time = minutely_data[0]
+            precipitation_data = minutely_data[1]
+            # print('{} {} mm/h'.format(precipitation_time, precipitation_data))
+            precipitation_total = precipitation_total + precipitation_data
+            precipitation_list.append((precipitation_time, precipitation_data))
+
+        print("MINUTELY FORECAST ->")
+        if precipitation_total == 0:
+            print("No precipitation within an hour")
+        else:
+            print('{} {} mm/h'.format(precipitation_list[0], precipitation_list[1]))
+            
         print()
         
     def saveCurrentWeatherData(self):
