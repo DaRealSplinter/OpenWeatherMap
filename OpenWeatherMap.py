@@ -288,7 +288,7 @@ class TimeMachineRequest(CurrentWeatherData):
 
     def getDateTimeInSeconds(self):
         s = self.month + '/' + self.date + '/' + self.year + ' ' + self.hour + ':' + self.minute + ':' + self.second
-        return int(datetime.datetime.strptime(s, "%m/%d/%Y %H:%M:%S").strftime("%s"))
+        return int(datetime.datetime.strptime(s, "%m/%d/%Y %H:%M:%S").timestamp()) # strftime("%s"))
 
     def getTimeMachineRequest(self, dt):        
         http_request = 'http://api.openweathermap.org/data/2.5/onecall/timemachine?lat=' + self.lat + '&lon=' + self.lon + '&dt=' + str(dt) + '&APPID=' + self.key + '&units=imperial'
