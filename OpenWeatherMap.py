@@ -197,11 +197,11 @@ class CurrentWeatherData:
         return len(self.data['daily'])
 
     def printCurrentWeatherReport(self):
-        print('Weather coordinates: [{}, {}]'.format(self.getLatitude(),
+        print('Weather coordinates: [{}, {}], '.format(self.getLatitude(),
                                          self.getLongitude()
-                                         )
+                                         ), end=''
               )
-        print('Timezone: {}'.format(self.getTimezone()))
+        print('Timezone: {}, '.format(self.getTimezone()), end='')
         print('Timezone Offset: {}'.format(self.getTimeZoneOffset()))
         print('Local Time: {}'.format(self.getCurrentDate()))
         print('Sunrise: {}'.format(self.getCurrentSunrise()))
@@ -223,8 +223,6 @@ class CurrentWeatherData:
         
         print()
 
-        self.graphMinutelyForecast()
-
     def printMinutelyForecastReport(self):
         for idx in range(0, self.getMinutelyForecastCount()):
             print('Minutely[{}]: {}'.format(idx,self.getMinutelyForecast(idx)))
@@ -240,7 +238,7 @@ class CurrentWeatherData:
             print('Daily[{}]: {}'.format(idx, self.getDailyForecast(idx)))
         print()
 
-    def graphMinutelyForecast(self):
+    def formattedMinutelyForecastReport(self):
         precipitation_list = []
         precipitation_total = 0
         for idx in range(0, self.getMinutelyForecastCount()):
@@ -251,12 +249,13 @@ class CurrentWeatherData:
             precipitation_total = precipitation_total + precipitation_data
             precipitation_list.append((precipitation_time, precipitation_data))
 
-        print("MINUTELY FORECAST ->")
+        print("Minutely Forecast Report")
         if precipitation_total == 0:
             print("No precipitation within an hour")
         else:
-            print('{} {} mm/h'.format(precipitation_list[0], precipitation_list[1]))
-            
+            print("Precipitation within the next hour...")
+            for idx in range(0, self.getMinutelyForecastCount()):
+                print('{} {} mm/h'.format(precipitation_list[idx][0], precipitation_list[idx][1]))            
         print()
         
     def saveCurrentWeatherData(self):
