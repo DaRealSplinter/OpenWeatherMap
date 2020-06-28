@@ -164,12 +164,20 @@ class CurrentWeatherData:
 
     ''' Daily Forecast '''
     def getDailyForecast(self, index=0):
-        dt = time.ctime(self.data['daily'][index]['dt'])        
-        sunrise = time.ctime(self.data['daily'][index]['sunrise'])                
-        sunset = time.ctime(self.data['daily'][index]['sunset'])
+        fmt = "%H:%M:%S"
+        dt = datetime.datetime.fromtimestamp(self.data['daily'][index]['dt']).strftime("%a %d %b %Y")
+        sunrise = datetime.datetime.fromtimestamp(self.data['daily'][index]['sunrise']).strftime(fmt)                
+        sunset = datetime.datetime.fromtimestamp(self.data['daily'][index]['sunset']).strftime(fmt)
+        temp_day = self.data['daily'][index]['temp']['day']
         temp_min = self.data['daily'][index]['temp']['min']
         temp_max = self.data['daily'][index]['temp']['max']
-        # skipped some data
+        temp_night = self.data['daily'][index]['temp']['night']
+        temp_eve = self.data['daily'][index]['temp']['eve']
+        temp_morn = self.data['daily'][index]['temp']['morn']
+        feels_like_day = self.data['daily'][index]['feels_like']['day']
+        feels_like_night = self.data['daily'][index]['feels_like']['night']
+        feels_like_eve = self.data['daily'][index]['feels_like']['eve']
+        feels_like_morn = self.data['daily'][index]['feels_like']['morn']
         pressure = self.data['daily'][index]['pressure']
         humidity = self.data['daily'][index]['humidity']
         dew_point = self.data['daily'][index]['dew_point']
@@ -180,7 +188,7 @@ class CurrentWeatherData:
         weather_description = self.data['daily'][index]['weather'][0]['description']
         weather_icon = self.data['daily'][index]['weather'][0]['icon']
         clouds = self.data['daily'][index]['clouds']
-        uvi = self.data['daily'][index]['uvi']
+        # uvi = self.data['daily'][index]['uvi']
                     
         try:
             rain = self.data['daily'][index]['rain']['1h']
@@ -192,7 +200,7 @@ class CurrentWeatherData:
         except:
             snow = None
 
-        return (dt, sunrise, sunset, temp_min, temp_max, pressure, humidity, dew_point, wind_speed, wind_deg, weather_description, clouds, uvi)
+        return (dt, sunrise, sunset, temp_min, temp_max, humidity, wind_speed, wind_deg, weather_description, clouds)
         
     def getDailyForecastCount(self):
         return len(self.data['daily'])
@@ -265,6 +273,16 @@ class CurrentWeatherData:
         for idx in range(0, self.getHourlyForecastCount()):
             x.add_row(self.getHourlyForecast(idx))
         print(x)
+        print()
+
+    def formattedDailyForecastReport(self):
+        print("Daily Forecast Report")
+        x = PrettyTable()
+        x.field_names = ['Date', 'Sunrise', 'Sunset', 'Low', 'High', 'Humidity', 'Wind Speed', 'Direction', 'Description', 'Clouds']
+        for idx in range(0, self.getDailyForecastCount()):
+            x.add_row(self.getDailyForecast(idx))
+        print(x)
+        print()
         
     def saveCurrentWeatherData(self):
         directory = 'data'

@@ -27,7 +27,7 @@ def main():
         report.formattedHourlyForecastReport()
 
     if args.D:
-        report.printDailyForecastReport()
+        report.formattedDailyForecastReport()
     
     print('Powered by OpenWeatherMap: https://openweathermap.org/')
     
