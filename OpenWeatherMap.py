@@ -3,6 +3,7 @@ import requests
 import datetime
 import time
 import os
+from prettytable import PrettyTable
 
 class CurrentWeatherData:
 
@@ -219,8 +220,7 @@ class CurrentWeatherData:
         print('Visibility: {:.2f} mi'.format(self.getCurrentVisibility()))
         print('Wind Speed: {} m/h, Direction: {}°'.format(self.getCurrentWindSpeed(),
                                                           self.getCurrentWindDegrees())
-              )
-        
+              )        
         print()
 
     def printMinutelyForecastReport(self):
@@ -257,6 +257,14 @@ class CurrentWeatherData:
             for idx in range(0, self.getMinutelyForecastCount()):
                 print('{} {} mm/h'.format(precipitation_list[idx][0], precipitation_list[idx][1]))            
         print()
+
+    def formattedHourlyForecastReport(self):
+        print("Hourly Forecast Report")
+        x = PrettyTable()
+        x.field_names = ['Date', 'Temp', 'Feels Like', 'Pressure', 'Humidity', 'Dew Point', 'Clouds', 'Wind Speed', 'Direction', 'Rain', 'Snow']
+        for idx in range(0, self.getHourlyForecastCount()):
+            x.add_row(self.getHourlyForecast(idx))
+        print(x)
         
     def saveCurrentWeatherData(self):
         directory = 'data'

@@ -25,7 +25,7 @@ def main():
         print()
 
     if args.H:        
-        tm.printHourlyForecastReport()
+        tm.formattedHourlyForecastReport()
         print()
         
     print('Powered by OpenWeatherMap: https://openweathermap.org/')

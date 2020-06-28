@@ -24,7 +24,7 @@ def main():
         report.formattedMinutelyForecastReport()
 
     if args.H:
-        report.printHourlyForecastReport()
+        report.formattedHourlyForecastReport()
 
     if args.D:
         report.printDailyForecastReport()
