@@ -57,6 +57,9 @@ class OpenWeatherMap:
     def getCoordinates(self):
         return (self.getLatitude(), self.getLongitude())
 
+    def getAlertsLink(self):
+        return self.config['openweathermap']['alerts']
+
     def __str__(self):
         return ('Name: {}; Id: {}; Key: {}; Coordinates: ({}, {})'.format(self.getName(), self.getId(), self.getKey(), self.getLatitude(), self.getLongitude()))
 

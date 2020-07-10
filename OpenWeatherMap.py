@@ -4,6 +4,7 @@ import datetime
 import time
 import os
 from prettytable import PrettyTable
+import alerts
 
 class CurrentWeatherData:
 
@@ -244,6 +245,16 @@ class CurrentWeatherData:
     def printDailyForecastReport(self):
         for idx in range(0, self.getDailyForecastCount()):
             print('Daily[{}]: {}'.format(idx, self.getDailyForecast(idx)))
+        print()
+
+    def printAlerts(self):
+        local_alerts = alerts.weather_alerts()
+        print('Alerts...')
+        try:
+            for idx in range(0, len(local_alerts)):
+                print('Alert[{}]: {}'.format(idx, local_alerts[idx]))
+        except:
+            print('Alert: None')
         print()
 
     def formattedMinutelyForecastReport(self):
