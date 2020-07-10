@@ -19,6 +19,8 @@
  4. Run the application - *Main.py* runs in a terminal with options.
  
  ## Release Notes ##
+ 3.0.0 - OpenWeather does NOT have the alerts available in the API like DarkSky. Alerts are now available using https://alerts.weather.gov/. Click on **By State/County...** under the **Warnings** sections. Then click on **County List** by the desired state in the **State (Zone List | County List)** list. Lastly, click on the **County Code** by the desired **County Name** in the list. This will be the link for the alerts app.
+ 
  2.1.0 - Better presentation of the current weather and the minutely, hourly and daily forecast.
  
  2.0.0 - OpenWeather now has an API similar to DarkSky to get free access to main weather data such as current weather, forecast (minutely, hourly, daily) and historical weather up to five previous days (time-machine) with only one call to the API.
