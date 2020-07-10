@@ -13,6 +13,7 @@
      id=CITY_ID
      lat=CITY_LATITUDE
      lon=CITY_LONGITUDE
+     alerts=COUNTY_CODE_LINK
      ```
      The id, lat, and lon are NOT used in the application but are still called for future uses, if desired.
 
