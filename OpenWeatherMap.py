@@ -250,10 +250,10 @@ class CurrentWeatherData:
     def printAlerts(self):
         local_alerts = alerts.weather_alerts()
         print('Alerts...')
-        try:
+        if len(local_alerts) != 0:
             for idx in range(0, len(local_alerts)):
                 print('Alert[{}]: {}'.format(idx, local_alerts[idx]))
-        except:
+        else:
             print('Alert: None')
         print()
 

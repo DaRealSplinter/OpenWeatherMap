@@ -33,8 +33,12 @@ def weather_alerts():
 def main():
     alerts = weather_alerts()
     print('Alerts...')
-    for idx in range(0, len(alerts)):
-        print('Alert[{}]: {}'.format(idx, alerts[idx]))
+    if len(alerts) != 0:
+        for idx in range(0, len(alerts)):
+            print('Alert[{}]: {}'.format(idx, alerts[idx]))
+            print()
+    else:
+        print('Alert: None')
 
 if __name__ == '__main__':
     main()
