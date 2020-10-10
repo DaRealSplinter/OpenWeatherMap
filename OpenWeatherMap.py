@@ -3,6 +3,7 @@ import requests
 import datetime
 import time
 import os
+from prettytable import PrettyTable
 
 class CurrentWeatherData:
 
@@ -115,10 +116,12 @@ class CurrentWeatherData:
             return None
 
     ''' Minutely Forecast '''
-    def getMinutelyForecast(self, index=0):
-        dt = self.data['minutely'][index]['dt']
-        dt = time.ctime(dt)
-        
+    def getMinutelyForecast(self, index=0, format_time='default'):
+        if format_time == 'default':
+            dt = time.ctime(self.data['minutely'][index]['dt'])
+        if format_time == 'minutely':
+            dt = time.strftime('%H:%M', time.localtime(self.data['minutely'][index]['dt']))        
+            
         precipitation = self.data['minutely'][index]['precipitation']
 
         return (dt, precipitation)
@@ -161,12 +164,20 @@ class CurrentWeatherData:
 
     ''' Daily Forecast '''
     def getDailyForecast(self, index=0):
-        dt = time.ctime(self.data['daily'][index]['dt'])        
-        sunrise = time.ctime(self.data['daily'][index]['sunrise'])                
-        sunset = time.ctime(self.data['daily'][index]['sunset'])
+        fmt = "%H:%M:%S"
+        dt = datetime.datetime.fromtimestamp(self.data['daily'][index]['dt']).strftime("%a %d %b %Y")
+        sunrise = datetime.datetime.fromtimestamp(self.data['daily'][index]['sunrise']).strftime(fmt)                
+        sunset = datetime.datetime.fromtimestamp(self.data['daily'][index]['sunset']).strftime(fmt)
+        temp_day = self.data['daily'][index]['temp']['day']
         temp_min = self.data['daily'][index]['temp']['min']
         temp_max = self.data['daily'][index]['temp']['max']
-        # skipped some data
+        temp_night = self.data['daily'][index]['temp']['night']
+        temp_eve = self.data['daily'][index]['temp']['eve']
+        temp_morn = self.data['daily'][index]['temp']['morn']
+        feels_like_day = self.data['daily'][index]['feels_like']['day']
+        feels_like_night = self.data['daily'][index]['feels_like']['night']
+        feels_like_eve = self.data['daily'][index]['feels_like']['eve']
+        feels_like_morn = self.data['daily'][index]['feels_like']['morn']
         pressure = self.data['daily'][index]['pressure']
         humidity = self.data['daily'][index]['humidity']
         dew_point = self.data['daily'][index]['dew_point']
@@ -177,7 +188,7 @@ class CurrentWeatherData:
         weather_description = self.data['daily'][index]['weather'][0]['description']
         weather_icon = self.data['daily'][index]['weather'][0]['icon']
         clouds = self.data['daily'][index]['clouds']
-        uvi = self.data['daily'][index]['uvi']
+        # uvi = self.data['daily'][index]['uvi']
                     
         try:
             rain = self.data['daily'][index]['rain']['1h']
@@ -189,17 +200,17 @@ class CurrentWeatherData:
         except:
             snow = None
 
-        return (dt, sunrise, sunset, temp_min, temp_max, pressure, humidity, dew_point, wind_speed, wind_deg, weather_description, clouds, uvi)
+        return (dt, sunrise, sunset, temp_min, temp_max, humidity, wind_speed, wind_deg, weather_description, clouds)
         
     def getDailyForecastCount(self):
         return len(self.data['daily'])
 
     def printCurrentWeatherReport(self):
-        print('Weather coordinates: [{}, {}]'.format(self.getLatitude(),
+        print('Weather coordinates: [{}, {}], '.format(self.getLatitude(),
                                          self.getLongitude()
-                                         )
+                                         ), end=''
               )
-        print('Timezone: {}'.format(self.getTimezone()))
+        print('Timezone: {}, '.format(self.getTimezone()), end='')
         print('Timezone Offset: {}'.format(self.getTimeZoneOffset()))
         print('Local Time: {}'.format(self.getCurrentDate()))
         print('Sunrise: {}'.format(self.getCurrentSunrise()))
@@ -217,8 +228,7 @@ class CurrentWeatherData:
         print('Visibility: {:.2f} mi'.format(self.getCurrentVisibility()))
         print('Wind Speed: {} m/h, Direction: {}°'.format(self.getCurrentWindSpeed(),
                                                           self.getCurrentWindDegrees())
-              )
-        
+              )        
         print()
 
     def printMinutelyForecastReport(self):
@@ -234,6 +244,44 @@ class CurrentWeatherData:
     def printDailyForecastReport(self):
         for idx in range(0, self.getDailyForecastCount()):
             print('Daily[{}]: {}'.format(idx, self.getDailyForecast(idx)))
+        print()
+
+    def formattedMinutelyForecastReport(self):
+        precipitation_list = []
+        precipitation_total = 0
+        for idx in range(0, self.getMinutelyForecastCount()):
+            minutely_data = self.getMinutelyForecast(idx, format_time='minutely')
+            precipitation_time = minutely_data[0]
+            precipitation_data = minutely_data[1]
+            # print('{} {} mm/h'.format(precipitation_time, precipitation_data))
+            precipitation_total = precipitation_total + precipitation_data
+            precipitation_list.append((precipitation_time, precipitation_data))
+
+        print("Minutely Forecast Report")
+        if precipitation_total == 0:
+            print("No precipitation within an hour")
+        else:
+            print("Precipitation within the next hour...")
+            for idx in range(0, self.getMinutelyForecastCount()):
+                print('{} {} mm/h'.format(precipitation_list[idx][0], precipitation_list[idx][1]))            
+        print()
+
+    def formattedHourlyForecastReport(self):
+        print("Hourly Forecast Report")
+        x = PrettyTable()
+        x.field_names = ['Date', 'Temp', 'Feels Like', 'Pressure', 'Humidity', 'Dew Point', 'Clouds', 'Wind Speed', 'Direction', 'Rain', 'Snow']
+        for idx in range(0, self.getHourlyForecastCount()):
+            x.add_row(self.getHourlyForecast(idx))
+        print(x)
+        print()
+
+    def formattedDailyForecastReport(self):
+        print("Daily Forecast Report")
+        x = PrettyTable()
+        x.field_names = ['Date', 'Sunrise', 'Sunset', 'Low', 'High', 'Humidity', 'Wind Speed', 'Direction', 'Description', 'Clouds']
+        for idx in range(0, self.getDailyForecastCount()):
+            x.add_row(self.getDailyForecast(idx))
+        print(x)
         print()
         
     def saveCurrentWeatherData(self):
@@ -265,7 +313,7 @@ class TimeMachineRequest(CurrentWeatherData):
 
     def getDateTimeInSeconds(self):
         s = self.month + '/' + self.date + '/' + self.year + ' ' + self.hour + ':' + self.minute + ':' + self.second
-        return int(datetime.datetime.strptime(s, "%m/%d/%Y %H:%M:%S").strftime("%s"))
+        return int(datetime.datetime.strptime(s, "%m/%d/%Y %H:%M:%S").timestamp()) # strftime("%s"))
 
     def getTimeMachineRequest(self, dt):        
         http_request = 'http://api.openweathermap.org/data/2.5/onecall/timemachine?lat=' + self.lat + '&lon=' + self.lon + '&dt=' + str(dt) + '&APPID=' + self.key + '&units=imperial'

@@ -21,15 +21,15 @@ def main():
         print()
 
     if args.M:
-        report.printMinutelyForecastReport()
+        report.formattedMinutelyForecastReport()
 
     if args.H:
-        report.printHourlyForecastReport()
+        report.formattedHourlyForecastReport()
 
     if args.D:
-        report.printDailyForecastReport()
+        report.formattedDailyForecastReport()
     
-    print('Powered by Open Weather Map: https://openweathermap.org/')
+    print('Powered by OpenWeatherMap: https://openweathermap.org/')
     
     
 if __name__ == '__main__':

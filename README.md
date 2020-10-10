@@ -19,6 +19,8 @@
  4. Run the application - *Main.py* runs in a terminal with options.
  
  ## Release Notes ##
+ 2.1.0 - Better presentation of the current weather and the minutely, hourly and daily forecast.
+ 
  2.0.0 - OpenWeather now has an API similar to DarkSky to get free access to main weather data such as current weather, forecast (minutely, hourly, daily) and historical weather up to five previous days (time-machine) with only one call to the API.
  
  1.0.0 - Initial release. This project was copied from my original repository. 
