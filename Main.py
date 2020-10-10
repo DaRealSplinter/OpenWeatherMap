@@ -12,9 +12,10 @@ def main():
     
     args = cmd_parser.parse_args()
 
-    # always print the current weather report
+    # always print the current weather report and alerts
     report = OpenWeatherMap.CurrentWeatherData()
     report.printCurrentWeatherReport()
+    report.printAlerts()
 
     if args.s:
         report.saveCurrentWeatherData()
@@ -29,7 +30,7 @@ def main():
     if args.D:
         report.formattedDailyForecastReport()
     
-    print('Powered by OpenWeatherMap: https://openweathermap.org/')
+    print('\nPowered by OpenWeatherMap: https://openweathermap.org/')
     
     
 if __name__ == '__main__':
